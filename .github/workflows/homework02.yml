@@ -17,10 +17,7 @@ jobs:
         pip install mypy pylint black==24.8.0 pytest==8.3.3 pandas==2.2.2 boddle bottle
     - name: Install project dependencies
       run: |
-        if [ -f ${{ github.head_ref }}/requirements.txt ];
-        then
-          pip install -r ${{ github.head_ref }}/requirements.txt
-        fi
+         pip install -r requirements.txt
     - name: Run black
       run: |
         black -l 120 --check --diff --color --exclude "test*" homework02
