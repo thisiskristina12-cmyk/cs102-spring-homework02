@@ -19,4 +19,5 @@ class News(Base):
     habr_id = Column(String)
     label = Column(String)
 
+
 Base.metadata.create_all(bind=engine)

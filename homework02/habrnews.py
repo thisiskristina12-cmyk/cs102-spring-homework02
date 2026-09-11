@@ -4,16 +4,18 @@ from scraputils import get_news
 from db import News, session
 from bayes import NaiveBayesClassifier
 
+
 @route("/news")
 def news_list():
     s = session()
     rows = s.query(News).filter(News.label == None).all()
-    return template('news_template', rows=rows)
+    return template("news_template", rows=rows)
+
 
 @route("/add_label/")
 def add_label():
-    label = request.query.get('label')
-    news_id = request.query.get('id')
+    label = request.query.get("label")
+    news_id = request.query.get("id")
 
     s = session()
     news = s.query(News).filter(News.id == news_id).first()
@@ -22,24 +24,28 @@ def add_label():
         news.label = label
         s.commit()
 
-    redirect('/news')
+    redirect("/news")
+
 
 @route("/update")
 def update_news():
-    fresh = get_news('https://habr.com/ru/articles/', n_pages=15)
+    fresh = get_news("https://habr.com/ru/articles/", n_pages=15)
 
     for item in fresh:
-        exists = s.query(News).filter(News.url == item['url']).first()
+        exists = s.query(News).filter(News.url == item["url"]).first()
         if exists is None:
-            s.add(News(
-                title=item['title'],
-                author=item['author'],
-                url=item['url'],
-                complexity=item['complexity'],
-                habr_id=item['habr_id'],
-            ))
+            s.add(
+                News(
+                    title=item["title"],
+                    author=item["author"],
+                    url=item["url"],
+                    complexity=item["complexity"],
+                    habr_id=item["habr_id"],
+                )
+            )
     s.commit()
-    redirect('/news')
+    redirect("/news")
+
 
 @route("/classify")
 def classify_news():
@@ -47,7 +53,7 @@ def classify_news():
 
     labeled = s.query(News).filter(News.label != None).all()
     if not labeled:
-        return redirect('/news')
+        return redirect("/news")
 
     X_train = [n.title for n in labeled]
     y_train = [n.label for n in labeled]
@@ -60,7 +66,8 @@ def classify_news():
         news.label = clf.predict([news.title])[0]
 
     s.commit()
-    redirect('/news')
+    redirect("/news")
+
 
 if __name__ == "__main__":
     run(host="localhost", port=8080)

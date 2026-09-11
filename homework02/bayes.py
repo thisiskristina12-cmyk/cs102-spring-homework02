@@ -2,6 +2,7 @@ import math
 import re
 from collections import Counter
 
+
 class NaiveBayesClassifier:
 
     def __init__(self, alpha=1.0):
@@ -27,9 +28,7 @@ class NaiveBayesClassifier:
                 self.vocab.add(w)
 
         n = len(y)
-        self.class_priors = {
-            c: math.log(class_doc_counts[c] / n) for c in self.classes
-        }
+        self.class_priors = {c: math.log(class_doc_counts[c] / n) for c in self.classes}
         return self
 
     def predict(self, X):
@@ -37,7 +36,7 @@ class NaiveBayesClassifier:
 
     def _predict_one(self, text):
         V = len(self.vocab)
-        best_class, best_score = None, float('-inf')
+        best_class, best_score = None, float("-inf")
 
         for c in self.classes:
             score = self.class_priors[c]
@@ -58,4 +57,4 @@ class NaiveBayesClassifier:
 
     @staticmethod
     def _tokenize(text):
-        return re.findall(r'\w+', text.lower())
+        return re.findall(r"\w+", text.lower())
