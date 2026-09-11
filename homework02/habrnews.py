@@ -45,7 +45,6 @@ def update_news():
                 )
             )
     s.commit()
-    redirect("/news")
 
 
 @route("/classify")
