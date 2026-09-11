@@ -16,7 +16,7 @@ class News(Base):
     author = Column(String)
     url = Column(String)
     complexity = Column(String)
-    habr_id = column(String)
+    habr_id = Column(String)
     label = Column(String)
 
 Base.metadata.create_all(bind=engine)

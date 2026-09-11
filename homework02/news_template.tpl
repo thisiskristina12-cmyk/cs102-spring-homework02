@@ -30,7 +30,7 @@
             <tfoot class="full-width">
                 <tr>
                     <th colspan="7">
-                        <a href="/update_news" class="ui right floated small primary button">Больше новостей!</a>
+                        <a href="/update" class="ui right floated small primary button">Больше новостей!</a>
                     </th>
                 </tr>
             </tfoot>
