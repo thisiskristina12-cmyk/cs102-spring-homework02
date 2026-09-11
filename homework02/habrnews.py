@@ -29,6 +29,7 @@ def add_label():
 
 @route("/update")
 def update_news():
+    s = session()
     fresh = get_news("https://habr.com/ru/articles/", n_pages=15)
 
     for item in fresh:
