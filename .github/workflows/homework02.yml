@@ -34,4 +34,4 @@ jobs:
     - name: Run unittests
       run: |
         cd homework02
-        python -m unittest discover homework02
+        python -m unittest discover 
