@@ -4,3 +4,4 @@ httpretty==1.0.2
 tqdm==4.52.0
 sqlalchemy==2.0.48
 bs4==0.0.2
+SQLAlchemy
