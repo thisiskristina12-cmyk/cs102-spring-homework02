@@ -5,7 +5,7 @@ from collections import Counter
 
 class NaiveBayesClassifier:
 
-    def __init__(self, alpha=1.0):
+    def __init__(self, alpha=0.04):
         self.alpha = alpha
         self.classes = []
         self.class_priors = {}
