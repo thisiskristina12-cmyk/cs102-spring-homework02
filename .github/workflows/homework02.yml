@@ -29,8 +29,8 @@ jobs:
         mypy --ignore-missing-imports homework02
     - name: Run pylint
       run: |
-        pylint --disable=missing-docstring --variable-rgx="[a-z0-9_]{1,30}$" --argument-rgx="^[a-z][a-z0-9]*((_[a-z0-9]+)*)?$" --ignore-patterns="test_.*?py" --exit-zero ${{ github.head_ref }}
+        pylint --disable=missing-docstring --variable-rgx="[a-z0-9_]{1,30}$" --argument-rgx="^[a-z][a-z0-9]*((_[a-z0-9]+)*)?$" --ignore-patterns="test_.*?py" --exit-zero homework02}
     - name: Run unittests
       run: |
         cd homework02
-        python -m unittest discover ${{ github.head_ref }}
+        python -m unittest discover homework02
