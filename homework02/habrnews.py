@@ -30,43 +30,39 @@ def add_label():
 @route("/update")
 def update_news():
     s = session()
-    fresh = get_news("https://habr.com/ru/articles/", n_pages=15)
+    fresh = get_news('https://habr.com/ru/articles/', n_pages=15)
 
     for item in fresh:
-        exists = s.query(News).filter(News.url == item["url"]).first()
+        exists = s.query(News).filter(News.url == item['url']).first()
         if exists is None:
-            s.add(
-                News(
-                    title=item["title"],
-                    author=item["author"],
-                    url=item["url"],
-                    complexity=item["complexity"],
-                    habr_id=item["habr_id"],
-                )
-            )
+            s.add(News(
+                title=item['title'],
+                author=item['author'],
+                url=item['url'],
+                complexity=item['complexity'],
+                habr_id=item['habr_id'],
+            ))
     s.commit()
-
 
 @route("/classify")
 def classify_news():
     s = session()
-
     labeled = s.query(News).filter(News.label != None).all()
-    if not labeled:
-        return redirect("/news")
+    unlabeled = s.query(News).filter(News.label == None).all()
 
-    X_train = [n.title for n in labeled]
-    y_train = [n.label for n in labeled]
+    if not labeled:
+        return unlabeled
 
     clf = NaiveBayesClassifier()
-    clf.fit(X_train, y_train)
+    clf.fit([n.title for n in labeled], [n.label for n in labeled])
 
-    unlabeled = s.query(News).filter(News.label == None).all()
-    for news in unlabeled:
+    def rank(news):
         news.label = clf.predict([news.title])[0]
+        return {'good': 0, 'maybe': 1, 'never': 2}.get(news.label, 3)
 
+    ranked = sorted(unlabeled, key=rank)
     s.commit()
-    redirect("/news")
+    return ranked
 
 
 if __name__ == "__main__":
