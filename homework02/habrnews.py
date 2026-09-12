@@ -30,19 +30,22 @@ def add_label():
 @route("/update")
 def update_news():
     s = session()
-    fresh = get_news('https://habr.com/ru/articles/', n_pages=15)
+    fresh = get_news("https://habr.com/ru/articles/", n_pages=15)
 
     for item in fresh:
-        exists = s.query(News).filter(News.url == item['url']).first()
+        exists = s.query(News).filter(News.url == item["url"]).first()
         if exists is None:
-            s.add(News(
-                title=item['title'],
-                author=item['author'],
-                url=item['url'],
-                complexity=item['complexity'],
-                habr_id=item['habr_id'],
-            ))
+            s.add(
+                News(
+                    title=item["title"],
+                    author=item["author"],
+                    url=item["url"],
+                    complexity=item["complexity"],
+                    habr_id=item["habr_id"],
+                )
+            )
     s.commit()
+
 
 @route("/classify")
 def classify_news():
@@ -58,7 +61,7 @@ def classify_news():
 
     def rank(news):
         news.label = clf.predict([news.title])[0]
-        return {'good': 0, 'maybe': 1, 'never': 2}.get(news.label, 3)
+        return {"good": 0, "maybe": 1, "never": 2}.get(news.label, 3)
 
     ranked = sorted(unlabeled, key=rank)
     s.commit()
