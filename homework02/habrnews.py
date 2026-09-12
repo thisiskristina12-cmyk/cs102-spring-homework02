@@ -24,7 +24,6 @@ def add_label():
         news.label = label
         s.commit()
 
-    redirect("/news")
 
 
 @route("/update")
