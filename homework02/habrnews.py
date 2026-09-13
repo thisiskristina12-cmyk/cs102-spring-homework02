@@ -25,7 +25,6 @@ def add_label():
         s.commit()
 
 
-
 @route("/update")
 def update_news():
     s = session()
